@@ -18,11 +18,11 @@ import java.util.stream.StreamSupport;
 public class StudentServiceImpl implements StudentService{
     private StudentRepository studentRepository;
     private SchoolClassRepository schoolClassRepository;
+
     public StudentServiceImpl(StudentRepository studentRepository, SchoolClassRepository schoolClassRepository) {
         this.studentRepository = studentRepository;
         this.schoolClassRepository = schoolClassRepository;
     }
-
 
     @Override
     public Set<Student> getAll() {
