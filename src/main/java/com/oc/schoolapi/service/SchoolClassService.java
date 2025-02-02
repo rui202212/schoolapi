@@ -10,6 +10,6 @@ public interface SchoolClassService {
     Set<SchoolClass> getAll();
     Optional<SchoolClass> get(Long id);
     Optional<SchoolClass> create(SchoolClassDto schoolClassDto);
-    Optional<SchoolClass> update(SchoolClassDto schoolClassDto);
+    Optional<SchoolClass> update(SchoolClassDto schoolClassDto, SchoolClass existingSchoolClass);
     void delete(SchoolClass schoolClass);
 }

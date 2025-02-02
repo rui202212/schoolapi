@@ -2,9 +2,7 @@ package com.oc.schoolapi.service;
 
 import com.oc.schoolapi.dto.SchoolClassDto;
 import com.oc.schoolapi.dto.mapper.SchoolClassMapper;
-import com.oc.schoolapi.dto.mapper.StudentMapper;
 import com.oc.schoolapi.model.SchoolClass;
-import com.oc.schoolapi.model.Student;
 import com.oc.schoolapi.repository.SchoolClassRepository;
 import com.oc.schoolapi.repository.SchoolSubjectRepository;
 import com.oc.schoolapi.repository.StudentRepository;
@@ -49,13 +47,15 @@ public class SchoolClassServiceImpl implements SchoolClassService {
     }
 
     @Override
-    public Optional<SchoolClass> update(SchoolClassDto schoolClassDto) {
+    public Optional<SchoolClass> update(SchoolClassDto schoolClassDto, SchoolClass existingSchoolClass) {
+        SchoolClass schoolClassToModify = SchoolClassMapper.toSchoolClass(schoolClassDto, schoolSubjectRepository, teacherRepository, studentRepository);
 
-        return Optional.empty();
+        schoolClassToModify.setId(existingSchoolClass.getId());
+        return Optional.of(this.schoolClassRepository.save(schoolClassToModify));
     }
 
     @Override
     public void delete(SchoolClass schoolClass) {
-
+        this.schoolClassRepository.delete(schoolClass);
     }
 }
