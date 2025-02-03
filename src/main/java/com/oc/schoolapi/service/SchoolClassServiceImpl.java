@@ -7,12 +7,14 @@ import com.oc.schoolapi.repository.SchoolClassRepository;
 import com.oc.schoolapi.repository.SchoolSubjectRepository;
 import com.oc.schoolapi.repository.StudentRepository;
 import com.oc.schoolapi.repository.TeacherRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+@Service
 public class SchoolClassServiceImpl implements SchoolClassService {
     private SchoolClassRepository schoolClassRepository;
     private SchoolSubjectRepository schoolSubjectRepository;

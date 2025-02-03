@@ -15,6 +15,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class SchoolClassMapper {
+    private SchoolClassMapper() {
+    }
+
     public static SchoolClass toSchoolClass(
             SchoolClassDto schoolClassDto,
             SchoolSubjectRepository schoolSubjectRepository,
