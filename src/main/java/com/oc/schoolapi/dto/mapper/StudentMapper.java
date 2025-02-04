@@ -12,7 +12,10 @@ public class StudentMapper {
     private StudentMapper() {
     }
 
-    public static Student toStudent(StudentDto studentDto, SchoolClassRepository schoolClassRepository){
+    public static Student toStudent(
+            StudentDto studentDto,
+            SchoolClassRepository schoolClassRepository
+    ) {
         Student student = new Student();
         student.setFirstName(studentDto.firstName());
         student.setLastName(studentDto.lastName());

@@ -9,10 +9,9 @@ import com.oc.schoolapi.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class StudentServiceImpl implements StudentService{
@@ -26,7 +25,7 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public Set<Student> getAll() {
-        return StreamSupport.stream(this.studentRepository.findAll().spliterator(), false).collect(Collectors.toSet());
+        return new HashSet<>(this.studentRepository.findAll());
     }
 
     @Override

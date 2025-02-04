@@ -12,7 +12,7 @@ import java.util.Set;
 public interface StudentService {
     /**
      * Get all students
-     * @return the list of all students
+     * @return the Set of all students
      */
     Set<Student> getAll();
 

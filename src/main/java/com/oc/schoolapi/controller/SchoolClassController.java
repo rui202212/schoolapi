@@ -14,6 +14,7 @@ import java.util.Set;
 @RequestMapping("/schoolclasses")
 public class SchoolClassController {
     private SchoolClassService schoolClassService;
+    private static final String NOT_FOUND_MESSAGE = "SchoolClass not found.";
 
     public SchoolClassController(SchoolClassService schoolClassService) {
         this.schoolClassService = schoolClassService;
@@ -31,7 +32,7 @@ public class SchoolClassController {
     @GetMapping("/{schoolclassId}")
     public ResponseEntity<SchoolClass> get(@PathVariable Long schoolclassId) {
         return ResponseEntity.ok(this.schoolClassService.get(schoolclassId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "SchoolClass not found.")));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, NOT_FOUND_MESSAGE)));
     }
 
     @PostMapping
@@ -44,7 +45,7 @@ public class SchoolClassController {
     @PutMapping("/{schoolclassId}")
     ResponseEntity<SchoolClass> update(@RequestBody SchoolClassDto schoolClassDto, @PathVariable Long schoolclassId) {
         SchoolClass existingSchoolClass = this.schoolClassService.get(schoolclassId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "SchoolClass not found."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, NOT_FOUND_MESSAGE));
         return this.schoolClassService.update(schoolClassDto, existingSchoolClass)
                 .map(ResponseEntity.status(HttpStatus.OK)::body)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR));
@@ -53,7 +54,7 @@ public class SchoolClassController {
     @DeleteMapping("/{schoolclassId}")
     ResponseEntity<Void> delete(@PathVariable Long schoolclassId) {
         SchoolClass existingSchoolClass = this.schoolClassService.get(schoolclassId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "SchoolClass not found."));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, NOT_FOUND_MESSAGE));
         this.schoolClassService.delete(existingSchoolClass);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

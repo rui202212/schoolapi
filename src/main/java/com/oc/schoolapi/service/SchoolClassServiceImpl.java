@@ -9,10 +9,9 @@ import com.oc.schoolapi.repository.StudentRepository;
 import com.oc.schoolapi.repository.TeacherRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class SchoolClassServiceImpl implements SchoolClassService {
@@ -34,7 +33,7 @@ public class SchoolClassServiceImpl implements SchoolClassService {
     }
     @Override
     public Set<SchoolClass> getAll() {
-        return StreamSupport.stream(this.schoolClassRepository.findAll().spliterator(), false).collect(Collectors.toSet());
+        return new HashSet<>(this.schoolClassRepository.findAll());
     }
 
     @Override
@@ -51,7 +50,6 @@ public class SchoolClassServiceImpl implements SchoolClassService {
     @Override
     public Optional<SchoolClass> update(SchoolClassDto schoolClassDto, SchoolClass existingSchoolClass) {
         SchoolClass schoolClassToModify = SchoolClassMapper.toSchoolClass(schoolClassDto, schoolSubjectRepository, teacherRepository, studentRepository);
-
         schoolClassToModify.setId(existingSchoolClass.getId());
         return Optional.of(this.schoolClassRepository.save(schoolClassToModify));
     }
