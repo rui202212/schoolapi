@@ -13,7 +13,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/schoolclasses")
 public class SchoolClassController {
-    private SchoolClassService schoolClassService;
+    private final SchoolClassService schoolClassService;
     private static final String NOT_FOUND_MESSAGE = "SchoolClass not found.";
 
     public SchoolClassController(SchoolClassService schoolClassService) {
