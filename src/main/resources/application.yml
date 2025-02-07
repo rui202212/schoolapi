@@ -14,7 +14,7 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
+#        dialect: org.hibernate.dialect.H2Dialect
         format_sql: true
   h2:
     console:
@@ -27,3 +27,13 @@ spring:
 server:
   servlet:
     context-path: /api/v1
+
+jwt:
+  secret: GD8kDfkhiDN10S5Nc8enVtjAcd8aLJV0Oc0t964ZhBx10K7y # To have environment variable for your secret
+  expiration: 3600000 # 1 hour
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
