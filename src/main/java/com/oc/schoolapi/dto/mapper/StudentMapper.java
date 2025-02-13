@@ -4,12 +4,14 @@ import com.oc.schoolapi.dto.StudentDto;
 import com.oc.schoolapi.model.SchoolClass;
 import com.oc.schoolapi.model.Student;
 import com.oc.schoolapi.repository.SchoolClassRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;
 
+
 public class StudentMapper {
-    private StudentMapper() {
+    public StudentMapper() {
     }
 
     public static Student toStudent(
@@ -21,13 +23,11 @@ public class StudentMapper {
         student.setLastName(studentDto.lastName());
         student.setEmail(studentDto.email());
         student.setPassword(studentDto.password());
+        student.setRoles(new HashSet<>(studentDto.roles()));
         student.setBirthDate(studentDto.birthDate());
 
         if (studentDto.enrolledSchoolClassesIds()!=null && !studentDto.enrolledSchoolClassesIds().isEmpty()) {
-            Set<SchoolClass> enrolledSchoolClasses = new HashSet<>();
-            for (Long classId : studentDto.enrolledSchoolClassesIds()) {
-                schoolClassRepository.findById(classId).ifPresent(enrolledSchoolClasses::add);
-            }
+            Set<SchoolClass> enrolledSchoolClasses = new HashSet<>(schoolClassRepository.findAllById(studentDto.enrolledSchoolClassesIds()));
             student.setEnrolledSchoolClasses(enrolledSchoolClasses);
         }
 

@@ -1,5 +1,7 @@
 package com.oc.schoolapi.dto;
 
+import com.oc.schoolapi.model.UserType;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,6 +19,7 @@ public record StudentDto(
         String lastName,
         String email,
         String password,
+        List<UserType> roles,
         LocalDate birthDate,
         List<Long> enrolledSchoolClassesIds
 ) {

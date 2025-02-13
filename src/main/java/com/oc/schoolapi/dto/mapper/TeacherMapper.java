@@ -24,20 +24,21 @@ public class TeacherMapper {
         teacher.setLastName(teacherDto.lastName());
         teacher.setEmail(teacherDto.email());
         teacher.setPassword(teacherDto.password());
+        teacher.setRoles(new HashSet<>(teacherDto.roles()));
 
         if (teacherDto.subjectsTaughtIds()!=null && !teacherDto.subjectsTaughtIds().isEmpty()) {
-            Set<SchoolSubject> schoolSubjects = new HashSet<>();
-            for (Long subjectId : teacherDto.subjectsTaughtIds()) {
-                schoolSubjectRepository.findById(subjectId).ifPresent(schoolSubjects::add);
-            }
+            Set<SchoolSubject> schoolSubjects = new HashSet<>(schoolSubjectRepository.findAllById(teacherDto.subjectsTaughtIds()));
+//            for (Long subjectId : teacherDto.subjectsTaughtIds()) {
+//                schoolSubjectRepository.findById(subjectId).ifPresent(schoolSubjects::add);
+//            }
             teacher.setSubjectsTaught(schoolSubjects);
         }
 
         if (teacherDto.assignedSchoolClassesIds()!=null && !teacherDto.assignedSchoolClassesIds().isEmpty()) {
-            Set<SchoolClass> schoolClasses = new HashSet<>();
-            for (Long classId : teacherDto.assignedSchoolClassesIds()) {
-                schoolClassRepository.findById(classId).ifPresent(schoolClasses::add);
-            }
+            Set<SchoolClass> schoolClasses = new HashSet<>(schoolClassRepository.findAllById(teacherDto.assignedSchoolClassesIds()));
+//            for (Long classId : teacherDto.assignedSchoolClassesIds()) {
+//                schoolClassRepository.findById(classId).ifPresent(schoolClasses::add);
+//            }
             teacher.setAssignedSchoolClasses(schoolClasses);
         }
 

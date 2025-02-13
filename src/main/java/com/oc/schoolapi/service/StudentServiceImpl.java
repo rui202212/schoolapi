@@ -36,7 +36,7 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public Optional<Student> create(StudentDto studentDto) {
         // Mapping studentDto to student to create
-        Student studentToAdd = StudentMapper.toStudent(studentDto, schoolClassRepository);
+        Student studentToAdd = StudentMapper.toStudent(studentDto, );
         studentToAdd.setRoles(Set.of(UserType.STUDENT));
         studentToAdd.setCreatedDate(LocalDate.now());
         studentToAdd.setUpdatedDate(LocalDate.now());
@@ -45,7 +45,7 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public Optional<Student> update(StudentDto studentDto, Student existingStudent) {
-        Student studentToModify = StudentMapper.toStudent(studentDto, schoolClassRepository);
+        Student studentToModify = StudentMapper.toStudent(studentDto, );
         if (studentToModify.getRoles() == null || studentToModify.getRoles().isEmpty()) {
             studentToModify.setRoles(Set.of(UserType.STUDENT));
         } else if (! studentToModify.getRoles().equals(Set.of(UserType.STUDENT))) {
