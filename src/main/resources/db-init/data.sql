@@ -1,15 +1,28 @@
-INSERT INTO student (first_name, last_name, email, password, birth_date, created_date, updated_date)
+-- Insert common data into the schooluser table
+INSERT INTO schooluser (id, first_name, last_name, email, password, created_date, updated_date)
 VALUES
-    ('Harry', 'Potter', 'harry.potter@hogwarts.edu', 'Xpe11iarmus', '1980-07-31', CURRENT_DATE, CURRENT_DATE),
-    ('Ronald', 'Weasley', 'ron.weasley@hogwarts.edu', 'BloodyHe11', '1980-03-01', CURRENT_DATE, CURRENT_DATE),
-    ('Hermione', 'Granger', 'hermione.granger@hogwarts.edu', 'Crookshanks9', '1979-09-19', CURRENT_DATE, CURRENT_DATE);
+    (1, 'Harry', 'Potter', 'harry.potter@hogwarts.edu', 'Xpe11iarmus', CURRENT_DATE, CURRENT_DATE),
+    (2, 'Ronald', 'Weasley', 'ron.weasley@hogwarts.edu', 'BloodyHe11', CURRENT_DATE, CURRENT_DATE),
+    (3, 'Hermione', 'Granger', 'hermione.granger@hogwarts.edu', 'Crookshanks9', CURRENT_DATE, CURRENT_DATE),
+    (4, 'Minerva', 'McGonagall', 'mcgonagall@hogwarts.edu', 'Animagus!1', CURRENT_DATE, CURRENT_DATE),
+    (5, 'Rubeus', 'Hagrid', 'hagrid@hogwarts.edu', '2Graup@Bro', CURRENT_DATE, CURRENT_DATE),
+    (6, 'Severus', 'Snape', 'snape@hogwarts.edu', '4Always!', CURRENT_DATE, CURRENT_DATE);
 
-INSERT INTO teacher (first_name, last_name, email, password, created_date, updated_date)
+-- Insert student-specific data into the Student table
+INSERT INTO student (id, birth_date)
 VALUES
-    ('Minerva', 'McGonagall', 'mcgonagall@hogwarts.edu', 'Animagus!1', CURRENT_DATE, CURRENT_DATE),
-    ('Rubeus', 'Hagrid', 'hagrid@hogwarts.edu', '2Graup@Bro', CURRENT_DATE, CURRENT_DATE),
-    ('Severus', 'Snape', 'snape@hogwarts.edu', '4Always!', CURRENT_DATE, CURRENT_DATE);
+    (1, '1980-07-31'),
+    (2, '1980-03-01'),
+    (3, '1979-09-19');
 
+-- Insert teacher-specific data into the Teacher table
+INSERT INTO teacher (id)
+VALUES
+    (4),
+    (5),
+    (6);
+
+-- Insert other data
 INSERT INTO schoolsubject (subject_name, description)
 VALUES
     ('Transfiguration', 'The art of changing the form of an object.'),
@@ -18,9 +31,9 @@ VALUES
 
 INSERT INTO schoolclass (class_name, schoolsubject_id, teacher_id)
 VALUES
-    ('Gryffindor Transfiguration', 1, 1),
-    ('Magical Creatures', 2, 2),
-    ('Advanced Potions', 3, 3);
+    ('Gryffindor Transfiguration', 1, 4),
+    ('Magical Creatures', 2, 5),
+    ('Advanced Potions', 3, 6);
 
 INSERT INTO student_schoolclass (schoolclass_id, student_id)
 VALUES
@@ -30,14 +43,12 @@ VALUES
     (2, 1), -- Harry is in Magical Creatures
     (3, 3); -- Hermione is in Advanced Potions
 
-INSERT INTO student_roles (student_id, roles)
+-- Insert user roles into the user_roles table
+INSERT INTO user_roles (user_id, roles)
 VALUES
     (1, 'STUDENT'),
     (2, 'STUDENT'),
-    (3, 'STUDENT');
-
-INSERT INTO teacher_roles (teacher_id, roles)
-VALUES
-    (1, 'TEACHER'),
-    (2, 'TEACHER'),
-    (3, 'TEACHER');
+    (3, 'STUDENT'),
+    (4, 'TEACHER'),
+    (5, 'TEACHER'),
+    (6, 'TEACHER');

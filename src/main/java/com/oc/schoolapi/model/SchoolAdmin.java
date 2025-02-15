@@ -8,23 +8,23 @@ import java.util.Set;
 @Entity
 @Table(name = "schooladmin")
 public class SchoolAdmin extends User {
-    @Id
+    /*@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id;*/
 
     public SchoolAdmin() {
     }
 
-    public SchoolAdmin(String firstName, String lastName, String email, String password, Set<UserType> roles, LocalDate createdDate, LocalDate updatedDate, Long id) {
+    public SchoolAdmin(String firstName, String lastName, String email, String password, Set<UserType> roles, LocalDate createdDate, LocalDate updatedDate/*, Long id*/) {
         super(firstName, lastName, email, password, roles, createdDate, updatedDate);
-        this.id = id;
+        /*this.id = id;*/
     }
 
-    public Long getId() {
+    /*public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
+    }*/
 }

@@ -12,9 +12,9 @@ import java.util.Set;
 @Entity
 @Table(name = "teacher")
 public class Teacher extends User {
-    @Id
+    /*@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id;*/
     @ManyToMany(
             mappedBy = "teachers",
             fetch = FetchType.LAZY
@@ -29,20 +29,20 @@ public class Teacher extends User {
 
     public Teacher() {}
 
-    public Teacher(String firstName, String lastName, String email, String password, Set<UserType> roles, LocalDate createdDate, LocalDate updatedDate, Long id, Set<SchoolSubject> subjectsTaught, Set<SchoolClass> assignedSchoolClasses) {
+    public Teacher(String firstName, String lastName, String email, String password, Set<UserType> roles, LocalDate createdDate, LocalDate updatedDate, /*Long id, */Set<SchoolSubject> subjectsTaught, Set<SchoolClass> assignedSchoolClasses) {
         super(firstName, lastName, email, password, roles, createdDate, updatedDate);
-        this.id = id;
+        /*this.id = id;*/
         this.subjectsTaught = subjectsTaught;
         this.assignedSchoolClasses = assignedSchoolClasses;
     }
 
-    public Long getId() {
+    /*public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
+    }*/
 
     public Set<SchoolSubject> getSubjectsTaught() {
         return subjectsTaught;
