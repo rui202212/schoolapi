@@ -4,7 +4,7 @@ A SpringBoot School Management API
 Here is the URL of the project's remote repository: https://github.com/rui202212/schoolapi.git
 
 Locally, please access Swagger at: http://localhost:8080/api/v1/swagger-ui.html
-
+![SchoolAPI-Swagger](docs/screenshots/schoolapi-swagger.png)
 
 **Exercise: Develop a School Management API**
 
