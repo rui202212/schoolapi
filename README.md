@@ -2,7 +2,9 @@
 A SpringBoot School Management API
 
 Here is the URL of the project's remote repository: https://github.com/rui202212/schoolapi.git
-Please find a deployment at https://giving-delight.up.railway.app
+
+Locally, please access Swagger at: http://localhost:8080/api/v1/swagger-ui.html
+
 
 **Exercise: Develop a School Management API**
 

@@ -1,5 +1,14 @@
 -- Insert common data into the schooluser table
-INSERT INTO schooluser (id, first_name, last_name, email, password, created_date, updated_date)
+INSERT INTO schooluser (first_name, last_name, email, password, created_date, updated_date)
+VALUES
+    ('Harry', 'Potter', 'harry.potter@hogwarts.edu', 'Xpe11iarmus', CURRENT_DATE, CURRENT_DATE),
+    ('Ronald', 'Weasley', 'ron.weasley@hogwarts.edu', 'BloodyHe11', CURRENT_DATE, CURRENT_DATE),
+    ('Hermione', 'Granger', 'hermione.granger@hogwarts.edu', 'Crookshanks9', CURRENT_DATE, CURRENT_DATE),
+    ('Minerva', 'McGonagall', 'mcgonagall@hogwarts.edu', 'Animagus!1', CURRENT_DATE, CURRENT_DATE),
+    ('Rubeus', 'Hagrid', 'hagrid@hogwarts.edu', '2Graup@Bro', CURRENT_DATE, CURRENT_DATE),
+    ('Severus', 'Snape', 'snape@hogwarts.edu', '4Always!', CURRENT_DATE, CURRENT_DATE);
+
+/*INSERT INTO schooluser (id, first_name, last_name, email, password, created_date, updated_date)
 VALUES
     (1, 'Harry', 'Potter', 'harry.potter@hogwarts.edu', 'Xpe11iarmus', CURRENT_DATE, CURRENT_DATE),
     (2, 'Ronald', 'Weasley', 'ron.weasley@hogwarts.edu', 'BloodyHe11', CURRENT_DATE, CURRENT_DATE),
@@ -7,7 +16,7 @@ VALUES
     (4, 'Minerva', 'McGonagall', 'mcgonagall@hogwarts.edu', 'Animagus!1', CURRENT_DATE, CURRENT_DATE),
     (5, 'Rubeus', 'Hagrid', 'hagrid@hogwarts.edu', '2Graup@Bro', CURRENT_DATE, CURRENT_DATE),
     (6, 'Severus', 'Snape', 'snape@hogwarts.edu', '4Always!', CURRENT_DATE, CURRENT_DATE);
-
+*/
 -- Insert student-specific data into the Student table
 INSERT INTO student (id, birth_date)
 VALUES

@@ -18,7 +18,7 @@ public class SchoolSubject {
     private String description;
     @ManyToMany(
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
     @JoinTable(
             name = "teacher_schoolsubject",

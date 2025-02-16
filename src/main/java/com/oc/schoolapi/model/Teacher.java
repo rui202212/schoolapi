@@ -17,13 +17,13 @@ public class Teacher extends User {
     private Long id;*/
     @ManyToMany(
             mappedBy = "teachers",
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
     private Set<SchoolSubject> subjectsTaught = new HashSet<>();
     @OneToMany(
             mappedBy = "teacher",
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY
+            fetch = FetchType.EAGER
     )
     private Set<SchoolClass> assignedSchoolClasses = new HashSet<>();
 
