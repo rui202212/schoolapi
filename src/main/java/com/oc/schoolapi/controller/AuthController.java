@@ -1,5 +1,6 @@
 package com.oc.schoolapi.controller;
 
+import com.oc.schoolapi.dto.ApiErrorResponse;
 import com.oc.schoolapi.dto.AuthenticationRequestCreateDto;
 import com.oc.schoolapi.dto.AuthenticationRequestDto;
 import com.oc.schoolapi.model.SchoolAdmin;
@@ -10,21 +11,27 @@ import com.oc.schoolapi.security.JwtUtil;
 import com.oc.schoolapi.security.MyUserDetailsService;
 import com.oc.schoolapi.service.*;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashSet;
 import java.util.Map;
 
+/**
+ * Authentication Controller
+ */
 @RestController
+@Tag(name = "Authentication", description = "Endpoints to authentication management.")
 @RequestMapping("/auth")
 public class AuthController {
 
@@ -39,6 +46,8 @@ public class AuthController {
     private final SchoolAdminServiceImplement schoolAdminServiceImplement;
 
     private final PasswordEncoder encoder;
+
+    private static final String SERVER_ERROR_MESSAGE = "Error occurred while adding user.";
 
     public AuthController(
             AuthenticationManager authenticationManager,
@@ -58,7 +67,25 @@ public class AuthController {
     }
 
     @Operation(
-            summary = "Endpoint for authentication"
+            summary = "Authenticate user and generate JWT"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description = "User authenticated successfully, JWT token returned.",
+            content = {@Content(mediaType = "application/json")}
+    )
+    @ApiResponse(
+            responseCode = "401",
+            description = "Unauthorized, invalid username or password.",
+            content = {@Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = ApiErrorResponse.class)
+            )}
+    )
+    @ApiResponse(
+            responseCode = "500",
+            description = "Internal server error",
+            content = {@Content(mediaType = "application/json")}
     )
     @PostMapping("/sign-in")
     public ResponseEntity<Map<String, String>> authenticateUser(@RequestBody AuthenticationRequestDto authenticationRequestDto) {
@@ -71,7 +98,7 @@ public class AuthController {
                     )
             );
         } catch (Exception e) {
-            throw new RuntimeException("Incorrect username or password", e);
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Incorrect username or password");
         }
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequestDto.email());
@@ -81,9 +108,40 @@ public class AuthController {
     }
 
     @Operation(
-            summary = "Endpoint to creat account"
+            summary = "Endpoint to creat a new user account"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "User account successfully created.",
+            content = {@Content(mediaType = "application/json")}
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = "Bad request: invalid data format.",
+            content = {
+                    @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)
+                    )
+            }
+    )
+    @ApiResponse(
+            responseCode = "409",
+            description = "Conflit: user already exists with this email.",
+            content = {
+                    @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ApiErrorResponse.class)
+                    )
+            }
+    )
+    @ApiResponse(
+            responseCode = "500",
+            description = "Internal server error",
+            content = {@Content(mediaType = "application/json")}
     )
     @PostMapping("/signup")
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> registerUser(@RequestBody AuthenticationRequestCreateDto authenticationRequestCreateDto) {
         
         // -- Check if the username already exists
@@ -92,7 +150,7 @@ public class AuthController {
                 teacherServiceImplement.getByUsername(authenticationRequestCreateDto.email()).isPresent() ||
                 schoolAdminServiceImplement.getByUsername(authenticationRequestCreateDto.email()).isPresent()
         ) {
-            throw new RuntimeException("Error: user already exists, please sign-in.");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Error: user already exists, please sign-in.");
         }
 
         User newUser;
@@ -107,7 +165,7 @@ public class AuthController {
                 student.setLastName(authenticationRequestCreateDto.lastName());
                 student.setRoles(new HashSet<>(authenticationRequestCreateDto.roles()));
                 newUser = studentServiceImplement.create(student)
-                        .orElseThrow(() -> new RuntimeException("Error occurred while adding user"));
+                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, SERVER_ERROR_MESSAGE));
             }
             case TEACHER -> {
                 Teacher teacher = new Teacher();
@@ -117,7 +175,7 @@ public class AuthController {
                 teacher.setLastName(authenticationRequestCreateDto.lastName());
                 teacher.setRoles(new HashSet<>(authenticationRequestCreateDto.roles()));
                 newUser = teacherServiceImplement.create(teacher)
-                        .orElseThrow(() -> new RuntimeException("Error occurred while adding user"));
+                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, SERVER_ERROR_MESSAGE));
             }
             case ADMIN -> {
                 SchoolAdmin admin = new SchoolAdmin();
@@ -127,7 +185,7 @@ public class AuthController {
                 admin.setLastName(authenticationRequestCreateDto.lastName());
                 admin.setRoles(new HashSet<>(authenticationRequestCreateDto.roles()));
                 newUser = schoolAdminServiceImplement.create(admin)
-                        .orElseThrow(() -> new RuntimeException("Error occurred while adding user"));
+                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, SERVER_ERROR_MESSAGE));
             }
             default ->
                 throw new IllegalArgumentException("Invalid user type. Allowed values: STUDENT, TEACHER, ADMIN.");
